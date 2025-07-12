@@ -1,4 +1,6 @@
-﻿namespace Blog
+﻿using ApplicationBlog.AppService;
+
+namespace Blog
 {
     public partial class MainPage : ContentPage
     {
@@ -9,14 +11,32 @@
             InitializeComponent();
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+        //async void OnCounterClicked(object sender, EventArgs e)
+        //{
+        //    //await _todoService.SaveTaskAsync(TodoItem, _isNewItem);
+        //    //await Shell.Current.GoToAsync("..");
+
+        //    CounterBtn.Text = "123";
+        //    SemanticScreenReader.Announce(CounterBtn.Text);
+        //}
+
+        async void OnCounterClicked(object sender, EventArgs e)
         {
             count++;
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
+            var appServiceBlog = new AppServiceBlog();
+            var todo = await appServiceBlog.GetClicks(count);
+
+            var online = Connectivity.Current.NetworkAccess == NetworkAccess.Internet ? "Online" : "Offline";
+
+
+            if (todo.Id == 1)
+                CounterBtn.Text = $"Clicked {todo.Id} time. Device is {online}.";
             else
-                CounterBtn.Text = $"Clicked {count} times";
+                CounterBtn.Text = $"Clicked {todo.Id} times. Device is {online}.";
+
+
+
 
             SemanticScreenReader.Announce(CounterBtn.Text);
         }
