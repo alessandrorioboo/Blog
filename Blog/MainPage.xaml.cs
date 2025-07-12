@@ -9,6 +9,12 @@ namespace Blog
         public MainPage()
         {
             InitializeComponent();
+            Loaded += OnPageLoaded;
+        }
+
+        private void OnPageLoaded(object? sender, EventArgs e)
+        {
+            OnCounterClicked(sender ?? this, e);
         }
 
         //async void OnCounterClicked(object sender, EventArgs e)
@@ -22,20 +28,15 @@ namespace Blog
 
         async void OnCounterClicked(object sender, EventArgs e)
         {
-            count++;
+            var online = Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
 
-            var appServiceBlog = new AppServiceBlog();
-            var todo = await appServiceBlog.GetClicks(count);
+            var appServicePost = new AppServicePost();
+            var allPost = await appServicePost.GetPostsAsyncViewModel(10, 1, online);
 
-            var online = Connectivity.Current.NetworkAccess == NetworkAccess.Internet ? "Online" : "Offline";
-
-
-            if (todo.Id == 1)
-                CounterBtn.Text = $"Clicked {todo.Id} time. Device is {online}.";
+            if (allPost.Count == 1)
+                CounterBtn.Text = $"Clicked {allPost.Count} time. Device is {online}.";
             else
-                CounterBtn.Text = $"Clicked {todo.Id} times. Device is {online}.";
-
-
+                CounterBtn.Text = $"Clicked {allPost.Count} times. Device is {online}.";
 
 
             SemanticScreenReader.Announce(CounterBtn.Text);
