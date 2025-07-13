@@ -1,16 +1,28 @@
 ﻿using ApplicationBlog.Helper;
 using LocalDataBase.Model;
-using Newtonsoft.Json;
+//using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ApplicationBlog.AppService
 {
-    public class AppServiceComments
+    public class AppServiceComments: AppServiceBase
     {
+        //JsonSerializerOptions _serializerOptions;
+
+        //public AppServiceComments()
+        //{
+        //    _serializerOptions = new JsonSerializerOptions
+        //    {
+        //        PropertyNameCaseInsensitive = true,
+        //        WriteIndented = true
+        //    };
+        //}
+
         public async Task<IList<Comment>> GetCommentsByPostListIdAsync(IList<int> postListId)
         {
             return await GetCommentsByPostListId(postListId);
@@ -18,15 +30,15 @@ namespace ApplicationBlog.AppService
 
         private async Task<IList<Comment>> GetCommentsByPostListId(IList<int> postListId)
         {
-            string jSonUser = await APIBlogHelper.GetCommentsByPostListIdAsync(postListId);
-            IList<Comment>? users = null;
+            string jSonComments = await APIBlogHelper.GetCommentsByPostListIdAsync(postListId);
+            IList<Comment>? comments = null;
 
-            if (!String.IsNullOrEmpty(jSonUser))
+            if (!String.IsNullOrEmpty(jSonComments))
             {
-                users = JsonConvert.DeserializeObject<IList<Comment>>(jSonUser);
+                comments = JsonSerializer.Deserialize<IList<Comment>>(jSonComments, _serializerOptions);
             }
 
-            return users ?? new List<Comment>();
+            return comments ?? new List<Comment>();
         }
     }
 }

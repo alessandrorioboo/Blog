@@ -1,53 +1,87 @@
 ﻿using ApplicationBlog.Helper;
 using LocalDataBase.Model;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
-using ViewModel.ViewModel;
+using ViewModel.ViewModels;
 
 namespace ApplicationBlog.AppService
 {
-    public class AppServicePost
+    public class AppServicePost : AppServiceBase, IAppServicePost
     {
-        public async Task<IList<PostViewModel>> GetPostsAsyncViewModel(int itens, int page, bool online)
+        public async Task<PagePostViewModel> GetPostsAsyncViewModel(int itens, int page, bool online)
         {
-            var posts = await GetPostsAsync(itens, page, online);
+            var pagePostViewModel = await GetPostsAsync(itens, page, online);
 
-            var jSonPosts = JsonConvert.SerializeObject(posts);
-            var postsViewModel = JsonConvert.DeserializeObject<IList<PostViewModel>>(jSonPosts);
-
-            return postsViewModel ?? new List<PostViewModel>();
+            return pagePostViewModel;
         }
 
-        public async Task<IList<Post>> GetPostsAsync(int itens, int page, bool online)
+        public async Task<PagePostViewModel> GetPostsAsync(int itens, int page, bool online)
         {
-            var posts = await GetAllPosts();
-            posts = posts.OrderByDescending(p => p.Id).Skip((page - 1) * itens).Take(itens).ToList();
-
-            if (posts != null && posts.Count > 0)
+            PagePostViewModel pagePostViewModel = new PagePostViewModel
             {
-                var userIdList = posts.Select(p => p.UserId).Distinct().ToList();
-                AppServiceUser appServiceUser = new AppServiceUser();
-                var usersTask = appServiceUser.GetUsersByListIdAsync(userIdList);
+                Page = page,
+                Total = 0,
+                Posts = null,
+                Status = "Processando"
+            };
 
-                var postIdList = posts.Select(p => p.Id).Distinct().ToList();
-                AppServiceComments appServiceComments = new AppServiceComments();
-                var commentsTask = appServiceComments.GetCommentsByPostListIdAsync(postIdList);
+            try
+            {
+                var posts = await GetAllPosts();
 
-                var users = await usersTask;
-                var comments = await commentsTask;
+                pagePostViewModel.Total = posts.Count;
 
-                posts = (from post in posts
-                         join user in users
-                         on post.UserId equals user.Id
-                         select new Post(post, user, comments.Where(comment => comment.PostId == post.Id).ToList())).OrderByDescending(p => p.Id).ToList();
+                posts = posts.OrderByDescending(p => p.Id).Skip((page - 1) * itens).Take(itens).ToList();
+
+                if (posts != null && posts.Count > 0)
+                {
+                    var userIdList = posts.Select(p => p.UserId).Distinct().ToList();
+                    AppServiceUser appServiceUser = new AppServiceUser();
+                    var usersTask = appServiceUser.GetUsersByListIdAsync(userIdList);
+
+                    var postIdList = posts.Select(p => p.Id).Distinct().ToList();
+                    AppServiceComments appServiceComments = new AppServiceComments();
+                    var commentsTask = appServiceComments.GetCommentsByPostListIdAsync(postIdList);
+
+                    var users = await usersTask;
+                    var comments = await commentsTask;
+
+                    // Fake para testar Postagens sem Comentários
+                    var removeCommentsPostId = posts == null ? 0 : posts.First().Id;
+                    comments = comments.Where(p => p.PostId != removeCommentsPostId).ToList();
+
+                    posts = (from post in posts
+                             join user in users
+                             on post.UserId equals user.Id
+                             select new Post(post, user, comments.Where(comment => comment.PostId == post.Id).ToList())).OrderByDescending(p => p.Id).ToList();
+
+
+                    MapperHelper<IList<Post>, IList<PostViewModel>> mapperHelper = new MapperHelper<IList<Post>, IList<PostViewModel>>();
+                    var postsViewModel = mapperHelper.Map(posts);
+
+                    //var jSonPosts = JsonSerializer.Serialize(posts, _serializerOptions);
+                    //var postsViewModel = JsonSerializer.Deserialize<IList<PostViewModel>>(jSonPosts, _serializerOptions);
+
+
+                    pagePostViewModel.Posts = postsViewModel;
+                    pagePostViewModel.Status = "OK";
+                }
+            }
+            catch (Exception)
+            {
+                pagePostViewModel.Total = 0;
+                pagePostViewModel.Page = 0;
+                pagePostViewModel.Status = "Erro";
+                pagePostViewModel.Posts = null;
             }
 
-            return posts ?? new List<Post>();
+            return pagePostViewModel;
         }
 
         private async Task<IList<Post>> GetAllPosts()
@@ -57,7 +91,7 @@ namespace ApplicationBlog.AppService
 
             if (!String.IsNullOrEmpty(jSonPosts))
             {
-                posts = JsonConvert.DeserializeObject<IList<Post>>(jSonPosts);
+                posts = JsonSerializer.Deserialize<IList<Post>>(jSonPosts, _serializerOptions);
             }
 
             return posts ?? new List<Post>();

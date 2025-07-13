@@ -8,8 +8,12 @@
     Title="Blog">
 
     <ShellContent
-        Title="Home"
+        Title="Blog Sigga"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
+    <ShellContent
+        Title="Comentários"
+        ContentTemplate="{DataTemplate local:CommentPage}"
+        Route="CommentPage" />
 </Shell>

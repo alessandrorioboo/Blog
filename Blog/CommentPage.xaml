@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"         
+             xmlns:models="clr-namespace:ViewModel.ViewModels;assembly=ViewModel"
+             x:Class="Blog.CommentPage">
+    <ContentPage.BindingContext>
+        <models:PageCommentViewModel/>
+    </ContentPage.BindingContext>
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            <!--<Image
+                Source="dotnet_bot.png"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="dot  net bot in a race car number eight" />-->
+
+            <Label
+                Text="Comentários Bloq Sigga!"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+
+            <Button Padding="10" Margin="15" Text="Voltar" HorizontalOptions="End" Clicked="OnBackClicked"/>
+
+            <Label 
+                Padding="0 0 0 0" 
+                Margin="0"
+                FontSize="Title" 
+                Text="Postagem" />
+
+            <BoxView BackgroundColor= "Gray"
+                     HeightRequest= "1" />
+
+            <Label 
+                Padding="0" 
+                TextDecorations="Underline" 
+                TextColor="Coral" 
+                FontSize="Title" 
+                Text="{Binding Post.Title}" />
+
+            <Label 
+                Padding="10" 
+                TextColor="Gray" 
+                FontSize="Caption" 
+                Text="{Binding Post.Body}" />
+
+ 
+            <Label 
+                Padding="0 0 0 20" 
+                FontSize="Title" 
+                Text="Comentários" />
+
+            <BoxView BackgroundColor= "Gray"
+                     HeightRequest= "1" />
+
+            <CollectionView ItemsSource="{Binding Post.Comments}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:CommentViewModel" >
+                        <Grid Padding = "0 0 0 20">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height = "*" />
+                                <RowDefinition Height = "*" />
+                                <RowDefinition Height = "*" />
+                                <RowDefinition Height = "Auto" />
+                            </Grid.RowDefinitions>
+                            <Label Padding="15 0 0 20"  Grid.Row="1" FontSize="10" Text="{Binding Name}"/>
+                            <Label Padding="5 10 10 20" Grid.Row="2" TextColor="Gray" FontSize="Caption" Text="{Binding Body}" />
+                            <BoxView
+                                Grid.Row= "3"
+                                BackgroundColor= "Gray"
+                                HeightRequest= "1" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                
+                
+            </CollectionView>
+            <Button Padding="10" Margin="15" Text="Voltar" HorizontalOptions="End" Clicked="OnBackClicked"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
+
+

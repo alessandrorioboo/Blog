@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using ApplicationBlog.AppService;
+using Microsoft.Extensions.Logging;
 
 namespace Blog
 {
@@ -15,8 +16,13 @@ namespace Blog
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.Services.AddSingleton<IAppServicePost, AppServicePost>();
+            builder.Services.AddSingleton<MainPage>();
+
+            builder.Services.AddTransient<CommentPage>();
+
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

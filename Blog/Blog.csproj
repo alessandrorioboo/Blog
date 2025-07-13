@@ -64,6 +64,19 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Application\ApplicationBlog.csproj" />
+	  <ProjectReference Include="..\ViewModel\ViewModel.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="CommentPage.xaml.cs">
+	    <DependentUpon>CommentPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="CommentPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

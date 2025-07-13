@@ -1,45 +1,38 @@
 ﻿using ApplicationBlog.AppService;
+using Microsoft.Maui.Controls;
+using ViewModel.ViewModels;
 
 namespace Blog
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
+        IAppServicePost _appServicePost;
 
-        public MainPage()
+        public MainPage(IAppServicePost service)
         {
             InitializeComponent();
+            _appServicePost = service;
+
             Loaded += OnPageLoaded;
         }
 
-        private void OnPageLoaded(object? sender, EventArgs e)
+        private async void OnPageLoaded(object? sender, EventArgs e)
         {
-            OnCounterClicked(sender ?? this, e);
+            //OnCounterClicked(sender ?? this, e);
+            var online = Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
+            this.BindingContext = await _appServicePost.GetPostsAsyncViewModel(10, 1, online);
         }
 
-        //async void OnCounterClicked(object sender, EventArgs e)
-        //{
-        //    //await _todoService.SaveTaskAsync(TodoItem, _isNewItem);
-        //    //await Shell.Current.GoToAsync("..");
-
-        //    CounterBtn.Text = "123";
-        //    SemanticScreenReader.Announce(CounterBtn.Text);
-        //}
-
-        async void OnCounterClicked(object sender, EventArgs e)
+        public async void OnCommentsClicked(object sender, EventArgs e)
         {
-            var online = Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
-
-            var appServicePost = new AppServicePost();
-            var allPost = await appServicePost.GetPostsAsyncViewModel(10, 1, online);
-
-            if (allPost.Count == 1)
-                CounterBtn.Text = $"Clicked {allPost.Count} time. Device is {online}.";
-            else
-                CounterBtn.Text = $"Clicked {allPost.Count} times. Device is {online}.";
-
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+            var post = (PostViewModel)((Button)sender).BindingContext;
+            var navigationParameter = new Dictionary<string, object>
+            {
+                { nameof(PageCommentViewModel), new PageCommentViewModel { Post = post } }
+            };
+            await Shell.Current.GoToAsync($"//{nameof(CommentPage)}", navigationParameter);
+            //await Shell.Current.GoToAsync(nameof(CommentPage), true);
+            //await appService.NavigateTo($"//{nameof(LoginPage)}", true);
         }
     }
 
