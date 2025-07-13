@@ -10,7 +10,7 @@ namespace Blog
     public partial class CommentPage : ContentPage
     {
 
-        PageCommentViewModel pageCommentViewModel;
+        PageCommentViewModel pageCommentViewModel = new PageCommentViewModel();
         public PageCommentViewModel PageCommentViewModel
         {
             get => pageCommentViewModel;

@@ -23,11 +23,7 @@
 
             <Button Padding="10" Margin="15" Text="Voltar" HorizontalOptions="End" Clicked="OnBackClicked"/>
 
-            <Label 
-                Padding="0 0 0 0" 
-                Margin="0"
-                FontSize="Title" 
-                Text="Postagem" />
+           
 
             <BoxView BackgroundColor= "Gray"
                      HeightRequest= "1" />
@@ -47,7 +43,7 @@
 
  
             <Label 
-                Padding="0 0 0 20" 
+                
                 FontSize="Title" 
                 Text="Comentários" />
 
@@ -57,15 +53,15 @@
             <CollectionView ItemsSource="{Binding Post.Comments}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:CommentViewModel" >
-                        <Grid Padding = "0 0 0 20">
+                        <Grid Padding = "0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height = "*" />
                                 <RowDefinition Height = "*" />
                                 <RowDefinition Height = "*" />
                                 <RowDefinition Height = "Auto" />
                             </Grid.RowDefinitions>
-                            <Label Padding="15 0 0 20"  Grid.Row="1" FontSize="10" Text="{Binding Name}"/>
-                            <Label Padding="5 10 10 20" Grid.Row="2" TextColor="Gray" FontSize="Caption" Text="{Binding Body}" />
+                            <Label Padding="15"  Grid.Row="1" FontSize="16" Text="{Binding Name}"/>
+                            <Label Padding="15" Grid.Row="2" TextColor="Gray" FontSize="Caption" Text="{Binding Body}" />
                             <BoxView
                                 Grid.Row= "3"
                                 BackgroundColor= "Gray"
