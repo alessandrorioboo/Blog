@@ -1,5 +1,6 @@
 ﻿using ApplicationBlog.AppService;
 using ViewModel.ViewModels;
+using static Common.Enumerators;
 
 namespace Blog
 {
@@ -11,14 +12,16 @@ namespace Blog
         {
             InitializeComponent();
             _appServicePost = service;
-
             Loaded += OnPageLoaded;
         }
 
         private async void OnPageLoaded(object? sender, EventArgs e)
         {
-            var online = Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
-            this.BindingContext = await _appServicePost.GetPostsAsyncViewModel(10, 1, online);
+            if (((PagePostViewModel)this.BindingContext).Status == eStatus.Processando)
+            {
+                var online = Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
+                this.BindingContext = await _appServicePost.GetPostsAsyncViewModel(10, 1, online);
+            }
         }
 
         public async void OnCommentsClicked(object sender, EventArgs e)
