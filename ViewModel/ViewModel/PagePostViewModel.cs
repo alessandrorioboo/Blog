@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using static Common.Enumerators;
 
 namespace ViewModel.ViewModels
 {
@@ -14,15 +10,30 @@ namespace ViewModel.ViewModels
         {
             get
             {
-                if (String.IsNullOrEmpty(Status))
-                    return "Obtendo postagens...";
-                else
-                    return $"Total de Postagens: {Total}";
+                switch (Status)
+                {
+                    case eStatus.Processando:
+                        return "Obtendo postagens...";
+                    case eStatus.Erro:
+                        return "Houve um erro ao obter as postagens.";
+                    default:
+                        return $"Total de Postagens: {Total}.";
+                }
             }
         }
-        public string? Status { get; set; }
-        public IList<PostViewModel>? Posts { get; set; }
 
-        
+        private eStatus _status = eStatus.Processando;
+        public eStatus Status
+        {
+            get
+            {
+                return _status;
+            }
+            set
+            {
+                _status = value;
+            }
+        }
+        public IList<PostViewModel>? Posts { get; set; }
     }
 }

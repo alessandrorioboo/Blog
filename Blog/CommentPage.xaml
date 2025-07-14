@@ -10,11 +10,6 @@
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
-            <!--<Image
-                Source="dotnet_bot.png"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="dot  net bot in a race car number eight" />-->
 
             <Label
                 Text="Comentários Bloq Sigga!"
@@ -22,8 +17,6 @@
                 SemanticProperties.HeadingLevel="Level1" />
 
             <Button Padding="10" Margin="15" Text="Voltar" HorizontalOptions="End" Clicked="OnBackClicked"/>
-
-           
 
             <BoxView BackgroundColor= "Gray"
                      HeightRequest= "1" />
@@ -41,11 +34,9 @@
                 FontSize="Caption" 
                 Text="{Binding Post.Body}" />
 
- 
-            <Label 
-                
+            <Label                 
                 FontSize="Title" 
-                Text="Comentários" />
+                Text="Comentário(s)" />
 
             <BoxView BackgroundColor= "Gray"
                      HeightRequest= "1" />
@@ -69,8 +60,6 @@
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-                
-                
             </CollectionView>
             <Button Padding="10" Margin="15" Text="Voltar" HorizontalOptions="End" Clicked="OnBackClicked"/>
         </VerticalStackLayout>

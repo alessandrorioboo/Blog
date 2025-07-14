@@ -18,9 +18,6 @@ namespace Blog
 
             builder.Services.AddSingleton<IAppServicePost, AppServicePost>();
             builder.Services.AddSingleton<MainPage>();
-
-            //builder.Services.AddTransient<CommentPage>();
-
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

@@ -1,27 +1,9 @@
-﻿using LocalDataBase.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using ViewModel.ViewModels;
+﻿using System.Text.Json;
 
 namespace ApplicationBlog.Helper
 {
     public class MapperHelper<S, D>
     {
-        //public JsonSerializerOptions _serializerOptions;
-
-        //public MapperHelper()
-        //{
-        //    _serializerOptions = new JsonSerializerOptions
-        //    {
-        //        PropertyNameCaseInsensitive = true,
-        //        WriteIndented = true
-        //    };
-        //}
-
         public D? Map(S source)
         {
             var _serializerOptions = new JsonSerializerOptions

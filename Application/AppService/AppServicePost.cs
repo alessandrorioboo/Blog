@@ -1,14 +1,8 @@
 ﻿using ApplicationBlog.Helper;
 using LocalDataBase.Model;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using ViewModel.ViewModels;
+using static Common.Enumerators;
 
 namespace ApplicationBlog.AppService
 {
@@ -28,7 +22,7 @@ namespace ApplicationBlog.AppService
                 Page = page,
                 Total = 0,
                 Posts = null,
-                Status = "Processando"
+                Status = eStatus.Processando
             };
 
             try
@@ -65,19 +59,15 @@ namespace ApplicationBlog.AppService
                     MapperHelper<IList<Post>, IList<PostViewModel>> mapperHelper = new MapperHelper<IList<Post>, IList<PostViewModel>>();
                     var postsViewModel = mapperHelper.Map(posts);
 
-                    //var jSonPosts = JsonSerializer.Serialize(posts, _serializerOptions);
-                    //var postsViewModel = JsonSerializer.Deserialize<IList<PostViewModel>>(jSonPosts, _serializerOptions);
-
-
                     pagePostViewModel.Posts = postsViewModel;
-                    pagePostViewModel.Status = "OK";
+                    pagePostViewModel.Status = eStatus.OK;
                 }
             }
             catch (Exception)
             {
                 pagePostViewModel.Total = 0;
                 pagePostViewModel.Page = 0;
-                pagePostViewModel.Status = "Erro";
+                pagePostViewModel.Status = eStatus.Erro;
                 pagePostViewModel.Posts = null;
             }
 

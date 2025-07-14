@@ -1,5 +1,4 @@
 ﻿using ApplicationBlog.AppService;
-using Microsoft.Maui.Controls;
 using ViewModel.ViewModels;
 
 namespace Blog
@@ -18,7 +17,6 @@ namespace Blog
 
         private async void OnPageLoaded(object? sender, EventArgs e)
         {
-            //OnCounterClicked(sender ?? this, e);
             var online = Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
             this.BindingContext = await _appServicePost.GetPostsAsyncViewModel(10, 1, online);
         }
@@ -31,8 +29,6 @@ namespace Blog
                 { nameof(PageCommentViewModel), new PageCommentViewModel { Post = post } }
             };
             await Shell.Current.GoToAsync($"//{nameof(CommentPage)}", navigationParameter);
-            //await Shell.Current.GoToAsync(nameof(CommentPage), true);
-            //await appService.NavigateTo($"//{nameof(LoginPage)}", true);
         }
     }
 

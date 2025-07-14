@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ViewModel.ViewModels
+﻿namespace ViewModel.ViewModels
 {
     public class PostViewModel
     {
@@ -15,6 +8,7 @@ namespace ViewModel.ViewModels
         public string? Title { get; set; }
         public string? Body { get; set; }
         public IList<CommentViewModel>? Comments { get; set; }
+
         public bool HasComments
         {
             get
@@ -28,7 +22,7 @@ namespace ViewModel.ViewModels
             get
             {
                 var qtdComments = Comments != null ? Comments.Count : 0;
-                return $"{qtdComments} comentários";
+                return $"{qtdComments} comentário(s)";
             }
         }
     }

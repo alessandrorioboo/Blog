@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ApplicationBlog.Helper
+﻿namespace ApplicationBlog.Helper
 {
     public class APIBlogHelper
     {
         private static HttpClient client = new HttpClient();
 
         private const string _templaeURLGetAllPost = "https://jsonplaceholder.typicode.com/posts";
-        private const string _templaeURLGetUser = "https://jsonplaceholder.typicode.com/users/{0}";
+        //private const string _templaeURLGetUser = "https://jsonplaceholder.typicode.com/users/{0}";
         private const string _templaeURLGetUserByList = "https://jsonplaceholder.typicode.com/users?{0}";
         private const string _templaeURLGetCommentByPostList = "https://jsonplaceholder.typicode.com/comments?{0}";
 
@@ -20,11 +14,11 @@ namespace ApplicationBlog.Helper
             return await GetData(_templaeURLGetAllPost);
         }
 
-        public static async Task<string> GetUserAsync(int id)
-        {
-            var uRL = String.Format(_templaeURLGetUser, id);
-            return await GetData(uRL);
-        }
+        //public static async Task<string> GetUserAsync(int id)
+        //{
+        //    var uRL = String.Format(_templaeURLGetUser, id);
+        //    return await GetData(uRL);
+        //}
 
         public static async Task<string> GetUserByListIdAsync(IList<int> listId)
         {

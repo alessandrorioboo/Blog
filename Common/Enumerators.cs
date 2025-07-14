@@ -2,11 +2,11 @@
 {
     public static class Enumerators
     {
-        public enum AddressType
+        public enum eStatus
         {
-            Residencial = 1,
-            Comercial = 2,
-            Faturamento = 3
+            Processando = 1,
+            OK = 2,
+            Erro = 3
         }
     }
 }

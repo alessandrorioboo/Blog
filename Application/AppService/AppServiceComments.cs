@@ -1,28 +1,11 @@
 ﻿using ApplicationBlog.Helper;
 using LocalDataBase.Model;
-//using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace ApplicationBlog.AppService
 {
     public class AppServiceComments: AppServiceBase
-    {
-        //JsonSerializerOptions _serializerOptions;
-
-        //public AppServiceComments()
-        //{
-        //    _serializerOptions = new JsonSerializerOptions
-        //    {
-        //        PropertyNameCaseInsensitive = true,
-        //        WriteIndented = true
-        //    };
-        //}
-
+    {        
         public async Task<IList<Comment>> GetCommentsByPostListIdAsync(IList<int> postListId)
         {
             return await GetCommentsByPostListId(postListId);
