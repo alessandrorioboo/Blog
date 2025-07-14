@@ -7,7 +7,7 @@
 
         }
 
-        public Post(Post post, User user, IList<Comment> comments)
+        public Post(Post post, User user, List<Comment> comments)
         {
             this.Id = post.Id;
             this.UserId = post.UserId;
@@ -22,6 +22,6 @@
         public User? User { get; set; }
         public string? Title { get; set; }
         public string? Body { get; set; }
-        public IList<Comment>? Comments { get; set; }
+        public List<Comment>? Comments { get; set; }
     }
 }

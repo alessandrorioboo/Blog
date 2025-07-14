@@ -1,11 +1,48 @@
-﻿using static Common.Enumerators;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.ObjectModel;
+using static Common.Enumerators;
 
 namespace ViewModel.ViewModels
 {
-    public class PagePostViewModel
+    public partial class PagePostViewModel : ObservableObject
     {
-        public int Page { get; set; }
-        public int Total { get; set; }
+        public PagePostViewModel()
+        {
+            Page = 1;
+            Total = 0;
+            Status = eStatus.Processando;
+            Posts = new ObservableCollection<PostViewModel>();
+        }
+
+        [ObservableProperty]
+        public int _page;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(TotalStr))]
+        public int _total;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(TotalStr))]
+        [NotifyPropertyChangedFor(nameof(VisibleGrid))]
+        public eStatus _status;
+
+        [ObservableProperty]
+        ObservableCollection<PostViewModel>? _posts;
+
+        [ObservableProperty]
+        ObservableCollection<PagingViewModel>? _pages;
+
+        [ObservableProperty]
+        public int _rowsPages;
+
+        public bool VisibleGrid
+        {
+            get
+            {
+                return this.Status != eStatus.Processando;
+            }
+        }
+
         public string TotalStr
         {
             get
@@ -21,19 +58,5 @@ namespace ViewModel.ViewModels
                 }
             }
         }
-
-        private eStatus _status = eStatus.Processando;
-        public eStatus Status
-        {
-            get
-            {
-                return _status;
-            }
-            set
-            {
-                _status = value;
-            }
-        }
-        public IList<PostViewModel>? Posts { get; set; }
     }
 }

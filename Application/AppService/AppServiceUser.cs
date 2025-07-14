@@ -6,19 +6,19 @@ namespace ApplicationBlog.AppService
 {
     public class AppServiceUser: AppServiceBase
     {
-        public async Task<IList<User>> GetUsersByListIdAsync(IList<int> listId)
+        public async Task<List<User>> GetUsersByListIdAsync(List<int> listId)
         {
             return await GetUsersByListId(listId);
         }
 
-        private async Task<IList<User>> GetUsersByListId(IList<int> listId)
+        private async Task<List<User>> GetUsersByListId(List<int> listId)
         {
             string jSonUsers = await APIBlogHelper.GetUserByListIdAsync(listId);
-            IList<User>? users = null;
+            List<User>? users = null;
 
             if (!String.IsNullOrEmpty(jSonUsers))
             {
-                users = JsonSerializer.Deserialize<IList<User>>(jSonUsers, _serializerOptions);
+                users = JsonSerializer.Deserialize<List<User>>(jSonUsers, _serializerOptions);
             }
 
             return users ?? new List<User>();

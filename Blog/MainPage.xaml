@@ -15,13 +15,20 @@
                 Text="Bloq Sigga!"
                 Style="{StaticResource Headline}"
                 SemanticProperties.HeadingLevel="Level1" />
-
-            <Label
+         
+            <Label 
                 Text="{Binding TotalStr}"
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.HeadingLevel="Level2"/>
 
-            <CollectionView ItemsSource="{Binding Posts}">
+            <Label 
+                Text="{Binding Page}"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level2"/>
+
+            <Button Padding="10" Margin="15" Text="Atualizar" HorizontalOptions="Center" Clicked="OnDataRefresh"/>
+
+            <CollectionView ItemsSource="{Binding Posts}" IsVisible="{Binding VisibleGrid}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:PostViewModel" >
                         <Grid Padding = "10">
@@ -44,8 +51,39 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
+
+            <CollectionView HorizontalOptions="Center" ItemsSource="{Binding Pages}" IsVisible="{Binding VisibleGrid}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Horizontal"
+                        Span="1" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:PagingViewModel" >
+                        <Grid Padding = "10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height = "*" />
+                            </Grid.RowDefinitions>
+                            
+                            <Button Padding="10" Grid.Row="0" Margin="30,0,0,0" Text="{Binding Page}" IsEnabled="{Binding IsEnable}" HorizontalOptions="End" Clicked="OnPageClicked"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
 
 
+<!--HorizontalOptions="End"-->
+<!--IsEnabled="{Binding IsEnable}"-->
+
+<!--<ListView ItemsSource="{Binding Pages}">
+    <ListView.ItemTemplate>
+        <DataTemplate x:DataType="models:PagingViewModel">
+            <Button Padding="10" Margin="15" Text="{Binding Page}" Clicked="OnPageClicked"/>
+        </DataTemplate>
+    </ListView.ItemTemplate>
+</ListView>-->

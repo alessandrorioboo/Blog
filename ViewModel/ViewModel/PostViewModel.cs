@@ -7,7 +7,7 @@
         public UserViewModel? User { get; set; }
         public string? Title { get; set; }
         public string? Body { get; set; }
-        public IList<CommentViewModel>? Comments { get; set; }
+        public List<CommentViewModel>? Comments { get; set; }
 
         public bool HasComments
         {

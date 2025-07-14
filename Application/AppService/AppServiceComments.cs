@@ -6,19 +6,19 @@ namespace ApplicationBlog.AppService
 {
     public class AppServiceComments: AppServiceBase
     {        
-        public async Task<IList<Comment>> GetCommentsByPostListIdAsync(IList<int> postListId)
+        public async Task<List<Comment>> GetCommentsByPostListIdAsync(List<int> postListId)
         {
             return await GetCommentsByPostListId(postListId);
         }
 
-        private async Task<IList<Comment>> GetCommentsByPostListId(IList<int> postListId)
+        private async Task<List<Comment>> GetCommentsByPostListId(List<int> postListId)
         {
             string jSonComments = await APIBlogHelper.GetCommentsByPostListIdAsync(postListId);
-            IList<Comment>? comments = null;
+            List<Comment>? comments = null;
 
             if (!String.IsNullOrEmpty(jSonComments))
             {
-                comments = JsonSerializer.Deserialize<IList<Comment>>(jSonComments, _serializerOptions);
+                comments = JsonSerializer.Deserialize<List<Comment>>(jSonComments, _serializerOptions);
             }
 
             return comments ?? new List<Comment>();

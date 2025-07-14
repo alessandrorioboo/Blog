@@ -20,7 +20,7 @@
         //    return await GetData(uRL);
         //}
 
-        public static async Task<string> GetUserByListIdAsync(IList<int> listId)
+        public static async Task<string> GetUserByListIdAsync(List<int> listId)
         {
             if (listId != null && listId.Count > 0)
             {
@@ -39,7 +39,7 @@
             }
         }
 
-        public static async Task<string> GetCommentsByPostListIdAsync(IList<int> postListId)
+        public static async Task<string> GetCommentsByPostListIdAsync(List<int> postListId)
         {        
             if (postListId != null && postListId.Count > 0)
             {

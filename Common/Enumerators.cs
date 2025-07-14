@@ -8,5 +8,12 @@
             OK = 2,
             Erro = 3
         }
+
+        public enum ePageAction
+        {
+            Inicial = 0,
+            Anterior = 1,
+            Proximo = 2
+        }
     }
 }

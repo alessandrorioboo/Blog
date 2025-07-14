@@ -1,5 +1,6 @@
 ﻿using ApplicationBlog.Helper;
 using LocalDataBase.Model;
+using System.Collections.ObjectModel;
 using System.Text.Json;
 using ViewModel.ViewModels;
 using static Common.Enumerators;
@@ -8,14 +9,14 @@ namespace ApplicationBlog.AppService
 {
     public class AppServicePost : AppServiceBase, IAppServicePost
     {
-        public async Task<PagePostViewModel> GetPostsAsyncViewModel(int itens, int page, bool online)
+        public async Task<PagePostViewModel> GetPostsAsyncViewModel(int items, int page, bool online)
         {
-            var pagePostViewModel = await GetPostsAsync(itens, page, online);
+            var pagePostViewModel = await GetPostsAsync(items, page, online);
 
             return pagePostViewModel;
         }
 
-        public async Task<PagePostViewModel> GetPostsAsync(int itens, int page, bool online)
+        public async Task<PagePostViewModel> GetPostsAsync(int items, int page, bool online)
         {
             PagePostViewModel pagePostViewModel = new PagePostViewModel
             {
@@ -31,7 +32,7 @@ namespace ApplicationBlog.AppService
 
                 pagePostViewModel.Total = posts.Count;
 
-                posts = posts.OrderByDescending(p => p.Id).Skip((page - 1) * itens).Take(itens).ToList();
+                posts = posts.OrderByDescending(p => p.Id).Skip((page - 1) * items).Take(items).ToList();
 
                 if (posts != null && posts.Count > 0)
                 {
@@ -56,7 +57,7 @@ namespace ApplicationBlog.AppService
                              select new Post(post, user, comments.Where(comment => comment.PostId == post.Id).ToList())).OrderByDescending(p => p.Id).ToList();
 
 
-                    MapperHelper<IList<Post>, IList<PostViewModel>> mapperHelper = new MapperHelper<IList<Post>, IList<PostViewModel>>();
+                    MapperHelper<List<Post>, ObservableCollection<PostViewModel>> mapperHelper = new MapperHelper<List<Post>, ObservableCollection<PostViewModel>>();
                     var postsViewModel = mapperHelper.Map(posts);
 
                     pagePostViewModel.Posts = postsViewModel;
@@ -74,14 +75,15 @@ namespace ApplicationBlog.AppService
             return pagePostViewModel;
         }
 
-        private async Task<IList<Post>> GetAllPosts()
+       
+        private async Task<List<Post>> GetAllPosts()
         {
             string jSonPosts = await APIBlogHelper.GetAllPostsAsync();
-            IList<Post>? posts = null;
+            List<Post>? posts = null;
 
             if (!String.IsNullOrEmpty(jSonPosts))
             {
-                posts = JsonSerializer.Deserialize<IList<Post>>(jSonPosts, _serializerOptions);
+                posts = JsonSerializer.Deserialize<List<Post>>(jSonPosts, _serializerOptions);
             }
 
             return posts ?? new List<Post>();
