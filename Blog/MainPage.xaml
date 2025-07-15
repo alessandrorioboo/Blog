@@ -21,12 +21,7 @@
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.HeadingLevel="Level2"/>
 
-            <Label 
-                Text="{Binding Page}"
-                Style="{StaticResource SubHeadline}"
-                SemanticProperties.HeadingLevel="Level2"/>
-
-            <Button Padding="10" Margin="15" Text="Atualizar" HorizontalOptions="Center" Clicked="OnDataRefresh"/>
+             <Button Padding="10" Margin="15" Text="Atualizar" HorizontalOptions="Center" Clicked="OnDataRefresh"/>
 
             <CollectionView ItemsSource="{Binding Posts}" IsVisible="{Binding VisibleGrid}">
                 <CollectionView.ItemTemplate>
@@ -41,7 +36,7 @@
                             <Label Padding="10" Grid.Row="0" TextDecorations="Underline" TextColor="Coral" FontSize="Title" Text="{Binding Title}" />
                             <Label Padding="10" Grid.Row="1" TextColor="Gray" FontSize="Caption" Text="{Binding Body}" />
                             <Label Padding="10" Grid.Row="2" FontSize="10" Text="{Binding User.Name}" HorizontalTextAlignment="Start"/>
-                            <Button Padding="10" Grid.Row="2" Margin="15" Text="{Binding CommentsStr}" IsEnabled="{Binding HasComments}" HorizontalOptions="End" Clicked="OnCommentsClicked"/>
+                            <Button Padding="10" Grid.Row="2" Margin="0,0,0,10" Text="{Binding CommentsStr}" IsEnabled="{Binding HasComments}" HorizontalOptions="End" Clicked="OnCommentsClicked"/>
                             <BoxView
                                 Grid.Row= "3"
                                 BackgroundColor= "Gray"
@@ -64,8 +59,8 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height = "*" />
                             </Grid.RowDefinitions>
-                            
-                            <Button Padding="10" Grid.Row="0" Margin="30,0,0,0" Text="{Binding Page}" IsEnabled="{Binding IsEnable}" HorizontalOptions="End" Clicked="OnPageClicked"/>
+
+                            <Button Padding="0" Grid.Row="0" Margin="0,0,0,20" Text="{Binding Page}" FontSize="16" WidthRequest="25" HeightRequest="25" IsEnabled="{Binding IsEnable}" HorizontalOptions="End" Clicked="OnPageClicked"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

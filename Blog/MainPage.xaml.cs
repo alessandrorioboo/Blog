@@ -11,7 +11,7 @@ namespace Blog
 
         private PagePostViewModel _pagePostViewModel = new();
         private const int itemsByPage = 9;
-        private const int qtdMaxPages = 10;
+        private const int qtdMaxPages = 5;
         private int starPage = 1;
 
         public MainPage(IAppServicePost service)
