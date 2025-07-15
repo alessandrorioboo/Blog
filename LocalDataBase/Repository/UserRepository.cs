@@ -3,8 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LocalDataBase.Repository
 {
-    
-    public class UserRepository : BaseRepository<User>
+    /// <summary>
+    /// Classe de Repositórios de Dados de Usuários
+    /// </summary>
+    public class UserRepository : BaseRepository<User>, IUserRepository
     {
         public async Task<List<User>> GetUserInUserIdList(List<int> userIds)
         {

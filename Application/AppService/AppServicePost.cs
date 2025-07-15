@@ -3,18 +3,28 @@ using LocalDataBase.Model;
 using LocalDataBase.Repository;
 using System.Collections.ObjectModel;
 using System.Text.Json;
-using System.Xml.Linq;
 using ViewModel.ViewModels;
 using static Common.Enumerators;
 
 namespace ApplicationBlog.AppService
 {
+    /// <summary>
+    /// Classe de Serviços de Postagens
+    /// </summary>
     public class AppServicePost : AppServiceBase, IAppServicePost
     {
-        private PostRepository _postRepository = new PostRepository();
-        private AppServiceComment _appServiceComment = new AppServiceComment();
-        private AppServiceUser _appServiceUser = new AppServiceUser();
-        private AppServiceDataInformation _appServiceDataInformation = new AppServiceDataInformation();
+        private IPostRepository _postRepository;
+        private IAppServiceComment _appServiceComment;
+        private IAppServiceUser _appServiceUser;
+        private IAppServiceDataInformation _appServiceDataInformation;
+
+        public AppServicePost(IPostRepository postRepository, IAppServiceComment appServiceComment, IAppServiceUser appServiceUser, IAppServiceDataInformation appServiceDataInformation)
+        {
+            _postRepository = postRepository;
+            _appServiceComment = appServiceComment;
+            _appServiceUser = appServiceUser;
+            _appServiceDataInformation = appServiceDataInformation;
+        }
 
         public async Task<PagePostViewModel> GetPostsAsyncViewModel(int items, int page, bool online)
         {
@@ -97,7 +107,9 @@ namespace ApplicationBlog.AppService
                              on post.UserId equals user.Id
                              select new Post(post, user, comments.Where(comment => comment.PostId == post.Id).ToList())).OrderByDescending(p => p.Id).ToList();
 
-                    Task.Run(() => SaveLocalData(posts));
+                    var postsCopy = posts;
+
+                    Task.Run(() => SaveLocalData(postsCopy));
 
                     posts = posts.OrderByDescending(p => p.Id).Skip((page - 1) * items).Take(items).ToList();
                 }
@@ -139,7 +151,6 @@ namespace ApplicationBlog.AppService
             DataInformation dataInformation = new DataInformation { LastUpdate = DateTime.Now };
             await _appServiceDataInformation.AddOrUpdate(dataInformation);
         }
-
 
         private async Task<List<Post>> GetAllPosts()
         {

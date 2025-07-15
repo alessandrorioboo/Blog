@@ -3,8 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LocalDataBase.Repository
 {
-    
-    public class DataInformationRepository : BaseRepository<DataInformation>
+    /// <summary>
+    /// Classe de Repositórios de Dados de Informação de dados persistidos
+    /// </summary>
+    public class DataInformationRepository : BaseRepository<DataInformation>, IDataInformationRepository
     {
         public virtual async Task<DataInformation> GetFirst()
         {

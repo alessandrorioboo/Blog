@@ -2,6 +2,9 @@
 
 namespace LocalDataBase.Model
 {
+    /// <summary>
+    /// Classe do Modelo de Postagens
+    /// </summary>
     public class Post : BaseModel
     {
         public Post()

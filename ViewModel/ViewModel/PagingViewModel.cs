@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ViewModel.ViewModels
+﻿namespace ViewModel.ViewModels
 {
+    /// <summary>
+    /// Classe ViewModel de Paginação
+    /// </summary>
     public class PagingViewModel
     {
         public string? Page { get; set; }

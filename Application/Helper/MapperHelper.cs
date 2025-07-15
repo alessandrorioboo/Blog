@@ -2,6 +2,11 @@
 
 namespace ApplicationBlog.Helper
 {
+    /// <summary>
+    /// Classe Helper Genérica para mapeamento de dados entre Entidades
+    /// </summary>
+    /// <typeparam name="S">Tipo da Entidade de Entrada (Souce)</typeparam>
+    /// <typeparam name="D">Tipo da Entidade de Saída (Destination)</typeparam>
     public class MapperHelper<S, D>
     {
         public D? Map(S source)
@@ -17,6 +22,5 @@ namespace ApplicationBlog.Helper
 
             return destination;
         }
-
     }
 }

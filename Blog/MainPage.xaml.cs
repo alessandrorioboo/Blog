@@ -5,9 +5,12 @@ using static Common.Enumerators;
 
 namespace Blog
 {
+    /// <summary>
+    /// Controladora da página de Postagens
+    /// </summary>
     public partial class MainPage : ContentPage
     {
-        IAppServicePost _appServicePost;
+        private IAppServicePost _appServicePost;
 
         private PagePostViewModel _pagePostViewModel = new();
         private const int itemsByPage = 9;

@@ -2,6 +2,9 @@
 
 namespace Blog
 {
+    /// <summary>
+    /// Controladora da página de Comentários
+    /// </summary>
     [QueryProperty(nameof(PageCommentViewModel), "PageCommentViewModel")]
     public partial class CommentPage : ContentPage
     {

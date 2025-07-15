@@ -1,5 +1,8 @@
 ﻿namespace ViewModel.ViewModels
 {
+    /// <summary>
+    /// Classe ViewModel de Comentários
+    /// </summary>
     public class CommentViewModel
     {
         public int Id { get; set; }

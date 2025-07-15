@@ -1,4 +1,5 @@
 ﻿using ApplicationBlog.AppService;
+using LocalDataBase.Repository;
 using Microsoft.Extensions.Logging;
 
 namespace Blog
@@ -17,7 +18,18 @@ namespace Blog
                 });
 
             builder.Services.AddSingleton<IAppServicePost, AppServicePost>();
+            builder.Services.AddSingleton<IAppServiceComment, AppServiceComment>();
+            builder.Services.AddSingleton<IAppServiceUser, AppServiceUser>();
+            builder.Services.AddSingleton<IAppServiceDataInformation, AppServiceDataInformation>();
+
+            builder.Services.AddSingleton<IPostRepository, PostRepository>();
+            builder.Services.AddSingleton<ICommentRepository, CommentRepository>();
+            builder.Services.AddSingleton<IDataInformationRepository, DataInformationRepository>();
+            builder.Services.AddSingleton<IUserRepository, UserRepository>();
+            
+
             builder.Services.AddSingleton<MainPage>();
+
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

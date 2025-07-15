@@ -1,5 +1,8 @@
 ﻿namespace ViewModel.ViewModels
 {
+    /// <summary>
+    /// Classe ViewModel de Usuários
+    /// </summary>
     public class UserViewModel
     {
         public int Id { get; set; }

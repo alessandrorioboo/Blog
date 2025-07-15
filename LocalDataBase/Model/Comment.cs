@@ -2,6 +2,9 @@
 
 namespace LocalDataBase.Model
 {
+    /// <summary>
+    /// Classe do Modelo de Comentários
+    /// </summary>
     public class Comment: BaseModel
     {
         [Required]

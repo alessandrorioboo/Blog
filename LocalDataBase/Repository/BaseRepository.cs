@@ -1,19 +1,14 @@
 ﻿using LocalDataBase.Context;
 using LocalDataBase.Model;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Metadata;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LocalDataBase.Repository
 {
-    public abstract class BaseRepository<T> where T : BaseModel
+    /// <summary>
+    /// Classe Base de Repositórios de Modelos de Dados
+    /// </summary>
+    /// <typeparam name="T">O Tipo do Modelo de Dados</typeparam>
+    public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
     {
         internal BlogContext context;
 
@@ -38,7 +33,7 @@ namespace LocalDataBase.Repository
 
         public virtual async Task AddOrUpdate(T model)
         {
-            context.ChangeTracker.Clear();            
+            context.ChangeTracker.Clear();
             DbSet<T> set = context.Set<T>();
 
             if (set.Any(x => x.Id == model.Id))

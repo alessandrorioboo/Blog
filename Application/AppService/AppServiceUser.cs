@@ -5,15 +5,22 @@ using System.Text.Json;
 
 namespace ApplicationBlog.AppService
 {
-    public class AppServiceUser: AppServiceBase
+    /// <summary>
+    /// Classe de Serviços de Usuários
+    /// </summary>
+    public class AppServiceUser : AppServiceBase, IAppServiceUser
     {
-        private UserRepository _userRepository = new UserRepository();
+        private IUserRepository _userRepository;
+
+        public AppServiceUser(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
 
         public async Task<List<User>> GetUserInUserIdList(List<int> userIds)
         {
             return await _userRepository.GetUserInUserIdList(userIds);
         }
-
 
         public async Task RemoveAll()
         {

@@ -2,6 +2,9 @@
 
 namespace LocalDataBase.Model
 {
+    /// <summary>
+    /// Classe do Modelo de Usuários
+    /// </summary>
     public class User : BaseModel
     {
         [MaxLength(50)]

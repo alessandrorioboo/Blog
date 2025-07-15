@@ -4,6 +4,9 @@ using static Common.Enumerators;
 
 namespace ViewModel.ViewModels
 {
+    /// <summary>
+    /// Classe ViewModel da Página de Postagens
+    /// </summary>
     public partial class PagePostViewModel : ObservableObject
     {
         public PagePostViewModel()

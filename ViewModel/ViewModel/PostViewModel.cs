@@ -1,5 +1,8 @@
 ﻿namespace ViewModel.ViewModels
 {
+    /// <summary>
+    /// Classe ViewModel de Postagens
+    /// </summary>
     public class PostViewModel
     {
         public int Id { get; set; }

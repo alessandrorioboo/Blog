@@ -1,13 +1,19 @@
-﻿using ApplicationBlog.Helper;
-using LocalDataBase.Model;
+﻿using LocalDataBase.Model;
 using LocalDataBase.Repository;
-using System.Text.Json;
 
 namespace ApplicationBlog.AppService
 {
-    public class AppServiceDataInformation: AppServiceBase
+    /// <summary>
+    /// Classe de Serviços de Informação de dados persistidos
+    /// </summary>
+    public class AppServiceDataInformation : AppServiceBase, IAppServiceDataInformation
     {
-        private DataInformationRepository _dataInformationRepository = new DataInformationRepository();
+        private IDataInformationRepository _dataInformationRepository;
+
+        public AppServiceDataInformation(IDataInformationRepository dataInformationRepository)
+        {
+            _dataInformationRepository = dataInformationRepository;
+        }
 
         public async Task<DataInformation> GetFirst()
         {

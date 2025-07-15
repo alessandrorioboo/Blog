@@ -3,8 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LocalDataBase.Repository
 {
-    
-    public class CommentRepository : BaseRepository<Comment>
+    /// <summary>
+    /// Classe de Repositórios de Dados de Comentários
+    /// </summary>
+    public class CommentRepository : BaseRepository<Comment>, ICommentRepository
     {
         public async Task<List<Comment>> GetCommentsInPostIdList(List<int> postIds)
         {

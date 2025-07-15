@@ -5,9 +5,17 @@ using System.Text.Json;
 
 namespace ApplicationBlog.AppService
 {
-    public class AppServiceComment: AppServiceBase
+    /// <summary>
+    /// Classe de Serviços de Comentários
+    /// </summary>
+    public class AppServiceComment : AppServiceBase, IAppServiceComment
     {
-        private CommentRepository _commentRepository = new CommentRepository();
+        private ICommentRepository _commentRepository;
+
+        public AppServiceComment(ICommentRepository commentRepository)
+        {
+            _commentRepository = commentRepository;
+        }
 
         public async Task RemoveAll()
         {
@@ -18,7 +26,7 @@ namespace ApplicationBlog.AppService
         {
             return await _commentRepository.GetCommentsInPostIdList(postIds);
         }
-        
+
         public async Task<List<Comment>> GetCommentsByPostListIdAsync(List<int> postListId)
         {
             return await GetCommentsByPostListId(postListId);
