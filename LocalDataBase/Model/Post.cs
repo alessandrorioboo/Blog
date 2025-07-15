@@ -1,6 +1,8 @@
-﻿namespace LocalDataBase.Model
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LocalDataBase.Model
 {
-    public class Post
+    public class Post : BaseModel
     {
         public Post()
         {
@@ -16,12 +18,18 @@
             this.Body = post.Body;
             this.Comments = comments;
         }
-
-        public int Id { get; set; }
+      
+        [Required]
         public int UserId { get; set; }
+        
         public User? User { get; set; }
+        
+        [MaxLength(80)]
         public string? Title { get; set; }
+
+        [MaxLength(500)]
         public string? Body { get; set; }
+
         public List<Comment>? Comments { get; set; }
     }
 }

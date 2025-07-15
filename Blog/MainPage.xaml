@@ -21,7 +21,15 @@
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.HeadingLevel="Level2"/>
 
-             <Button Padding="10" Margin="15" Text="Atualizar" HorizontalOptions="Center" Clicked="OnDataRefresh"/>
+            <Label 
+                IsVisible="{Binding VisibleGrid}"
+                Text="{Binding LastUpdateInformation}"
+                HorizontalTextAlignment="Center"
+                FontSize="Caption"
+                TextColor="#0811F5"
+                SemanticProperties.HeadingLevel="Level2"/>
+
+            <Button Padding="10" Margin="15" Text="Atualizar" HorizontalOptions="Center" Clicked="OnDataRefresh"/>
 
             <CollectionView ItemsSource="{Binding Posts}" IsVisible="{Binding VisibleGrid}">
                 <CollectionView.ItemTemplate>

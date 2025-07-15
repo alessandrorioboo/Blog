@@ -12,7 +12,6 @@ namespace ApplicationBlog.Helper
                 WriteIndented = true
             };
 
-
             var jSonSource = JsonSerializer.Serialize(source, _serializerOptions);
             var destination = JsonSerializer.Deserialize<D>(jSonSource, _serializerOptions);
 

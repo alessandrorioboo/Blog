@@ -1,7 +1,9 @@
 ﻿using ApplicationBlog.Helper;
 using LocalDataBase.Model;
+using LocalDataBase.Repository;
 using System.Collections.ObjectModel;
 using System.Text.Json;
+using System.Xml.Linq;
 using ViewModel.ViewModels;
 using static Common.Enumerators;
 
@@ -9,12 +11,42 @@ namespace ApplicationBlog.AppService
 {
     public class AppServicePost : AppServiceBase, IAppServicePost
     {
+        private PostRepository _postRepository = new PostRepository();
+        private AppServiceComment _appServiceComment = new AppServiceComment();
+        private AppServiceUser _appServiceUser = new AppServiceUser();
+        private AppServiceDataInformation _appServiceDataInformation = new AppServiceDataInformation();
+
         public async Task<PagePostViewModel> GetPostsAsyncViewModel(int items, int page, bool online)
         {
             var pagePostViewModel = await GetPostsAsync(items, page, online);
 
             return pagePostViewModel;
         }
+
+        public async Task<List<Post>> GetAllPostsPaged(int items, int page)
+        {
+            var posts = await _postRepository.GetAllPostsPaged(items, page);
+
+            if (!posts.Where(p => p.Comments != null).Any())
+            {
+                var comments = await _appServiceComment.GetCommentsInPostIdList(posts.Select(posts => posts.Id).ToList());
+                posts = (from post in posts
+                         select new Post(post, post.User ?? new User(), comments.Where(comment => comment.PostId == post.Id).ToList())).OrderByDescending(p => p.Id).ToList();
+
+            }
+
+            if (!posts.Where(p => p.User != null).Any())
+            {
+                var users = await _appServiceUser.GetUserInUserIdList(posts.Select(posts => posts.UserId).Distinct().ToList());
+                posts = (from post in posts
+                         join user in users
+                         on post.UserId equals user.Id
+                         select new Post(post, user, post.Comments ?? new List<Comment>())).OrderByDescending(p => p.Id).ToList();
+            }
+
+            return posts;
+        }
+
 
         public async Task<PagePostViewModel> GetPostsAsync(int items, int page, bool online)
         {
@@ -23,46 +55,58 @@ namespace ApplicationBlog.AppService
                 Page = page,
                 Total = 0,
                 Posts = null,
-                Status = eStatus.Processando
+                Status = eStatus.Processando,
+                Online = online
             };
 
             try
             {
-                var posts = await GetAllPosts();
+                List<Post> posts;
+                if (online)
+                {
+                    posts = await GetAllPosts();
+                    pagePostViewModel.Total = posts.Count;
+                    pagePostViewModel.LastUpdate = DateTime.Now;
+                    //posts = posts.OrderByDescending(p => p.Id).Skip((page - 1) * items).Take(items).ToList();
+                }
+                else
+                {
+                    var dataInformation = await _appServiceDataInformation.GetFirst();
+                    pagePostViewModel.Total = await _postRepository.GetQttRows();
+                    pagePostViewModel.LastUpdate = dataInformation.LastUpdate;
 
-                pagePostViewModel.Total = posts.Count;
+                    posts = await GetAllPostsPaged(items, page);
+                }
 
-                posts = posts.OrderByDescending(p => p.Id).Skip((page - 1) * items).Take(items).ToList();
-
-                if (posts != null && posts.Count > 0)
+                if (online)
                 {
                     var userIdList = posts.Select(p => p.UserId).Distinct().ToList();
-                    AppServiceUser appServiceUser = new AppServiceUser();
-                    var usersTask = appServiceUser.GetUsersByListIdAsync(userIdList);
+                    var usersTask = _appServiceUser.GetUsersByListIdAsync(userIdList);
 
                     var postIdList = posts.Select(p => p.Id).Distinct().ToList();
-                    AppServiceComments appServiceComments = new AppServiceComments();
-                    var commentsTask = appServiceComments.GetCommentsByPostListIdAsync(postIdList);
+                    var commentsTask = _appServiceComment.GetCommentsByPostListIdAsync(postIdList);
 
                     var users = await usersTask;
                     var comments = await commentsTask;
 
                     // Fake para testar Postagens sem Comentários
-                    var removeCommentsPostId = posts == null ? 0 : posts.First().Id;
-                    comments = comments.Where(p => p.PostId != removeCommentsPostId).ToList();
+                    comments = comments.Where(p => p.PostId != 100).ToList();
 
                     posts = (from post in posts
                              join user in users
                              on post.UserId equals user.Id
                              select new Post(post, user, comments.Where(comment => comment.PostId == post.Id).ToList())).OrderByDescending(p => p.Id).ToList();
 
+                    Task.Run(() => SaveLocalData(posts));
 
-                    MapperHelper<List<Post>, ObservableCollection<PostViewModel>> mapperHelper = new MapperHelper<List<Post>, ObservableCollection<PostViewModel>>();
-                    var postsViewModel = mapperHelper.Map(posts);
-
-                    pagePostViewModel.Posts = postsViewModel;
-                    pagePostViewModel.Status = eStatus.OK;
+                    posts = posts.OrderByDescending(p => p.Id).Skip((page - 1) * items).Take(items).ToList();
                 }
+
+                MapperHelper<List<Post>, ObservableCollection<PostViewModel>> mapperHelper = new MapperHelper<List<Post>, ObservableCollection<PostViewModel>>();
+                var postsViewModel = mapperHelper.Map(posts);
+
+                pagePostViewModel.Posts = postsViewModel;
+                pagePostViewModel.Status = eStatus.OK;
             }
             catch (Exception)
             {
@@ -75,7 +119,28 @@ namespace ApplicationBlog.AppService
             return pagePostViewModel;
         }
 
-       
+        private async Task SaveLocalData(List<Post> posts)
+        {
+
+            await _postRepository.RemoveAll();
+            await _appServiceComment.RemoveAll();
+            await _appServiceUser.RemoveAll();
+
+            await _postRepository.AddAll(posts);
+
+            var dataInformation = new DataInformation { Id = 1, LastUpdate = DateTime.Now };
+            await _appServiceDataInformation.AddOrUpdate(dataInformation);
+        }
+
+        private async Task SaveLocalDataOld(List<Post> posts)
+        {
+            await _postRepository.AddOrUpdateAll(posts);
+
+            DataInformation dataInformation = new DataInformation { LastUpdate = DateTime.Now };
+            await _appServiceDataInformation.AddOrUpdate(dataInformation);
+        }
+
+
         private async Task<List<Post>> GetAllPosts()
         {
             string jSonPosts = await APIBlogHelper.GetAllPostsAsync();

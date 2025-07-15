@@ -33,7 +33,7 @@ namespace Blog
         public void OnDataRefresh(object sender, EventArgs e)
         {
             _pagePostViewModel.Status = eStatus.Processando;
-            Task.Run(() => ObterDados(itemsByPage, 1));           
+            Task.Run(() => ObterDados(itemsByPage, 1));
         }
 
         public void OnPageClicked(object sender, EventArgs e)
@@ -75,6 +75,8 @@ namespace Blog
             _pagePostViewModel.Status = pagePostViewModel.Status;
             _pagePostViewModel.Posts = pagePostViewModel.Posts;
             _pagePostViewModel.Total = pagePostViewModel.Total;
+            _pagePostViewModel.Online = pagePostViewModel.Online;
+            _pagePostViewModel.LastUpdate = pagePostViewModel.LastUpdate;
 
             RefreshBottonsPages(ePageAction.Inicial);
         }

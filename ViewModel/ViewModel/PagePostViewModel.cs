@@ -35,6 +35,24 @@ namespace ViewModel.ViewModels
         [ObservableProperty]
         public int _rowsPages;
 
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(LastUpdateInformation))]
+        public bool _online;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(LastUpdateInformation))]
+        public DateTime _lastUpdate;
+
+        public string LastUpdateInformation
+        {
+            get
+            {
+                var onlineStr = Online ? "online" : "OFFLINE";
+                var lastUpdateStr = LastUpdate.ToString("dd/MM/yyyy HH:mm:ss");
+                return $"Voce está navegando {onlineStr}, última atualização dos dados em {lastUpdateStr}!";
+            }
+        }
+
         public bool VisibleGrid
         {
             get

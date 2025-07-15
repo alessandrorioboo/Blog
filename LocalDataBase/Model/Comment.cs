@@ -1,11 +1,21 @@
-﻿namespace LocalDataBase.Model
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LocalDataBase.Model
 {
-    public class Comment
+    public class Comment: BaseModel
     {
-        public int Id { get; set; }
-        public int PostId { get; set; }
+        [Required]
+        public int PostId { get; set; }       
+        
+        //public Post? Post { get; set; }
+        
+        [MaxLength(100)]
         public string? Name { get; set; }
+
+        [MaxLength(255)]
         public string? EMail { get; set; }
+
+        [MaxLength(500)]
         public string? Body { get; set; }
     }
 }
