@@ -1,4 +1,4 @@
-﻿namespace ApplicationBlog.Helper
+﻿namespace Application.Helper
 {
     /// <summary>
     /// Classe Helper de acesso à API jsonplaceholder.typicode.com

@@ -1,6 +1,6 @@
 ﻿using LocalDataBase.Model;
 
-namespace ApplicationBlog.AppService
+namespace Application.AppService
 {
     /// <summary>
     /// Interface de Serviços de Informação de dados persistidos

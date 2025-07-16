@@ -1,4 +1,4 @@
-﻿using ApplicationBlog.AppService;
+﻿using Application.AppService;
 using LocalDataBase.Repository;
 using Microsoft.Extensions.Logging;
 

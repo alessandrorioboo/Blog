@@ -1,7 +1,7 @@
 ﻿using LocalDataBase.Model;
 using ViewModel.ViewModels;
 
-namespace ApplicationBlog.AppService
+namespace Application.AppService
 {
     /// <summary>
     /// Interface de Serviços de Postagens

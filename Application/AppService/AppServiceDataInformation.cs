@@ -1,7 +1,7 @@
 ﻿using LocalDataBase.Model;
 using LocalDataBase.Repository;
 
-namespace ApplicationBlog.AppService
+namespace Application.AppService
 {
     /// <summary>
     /// Classe de Serviços de Informação de dados persistidos

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace ApplicationBlog.Helper
+namespace Application.Helper
 {
     /// <summary>
     /// Classe Helper Genérica para mapeamento de dados entre Entidades

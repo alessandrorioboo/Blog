@@ -1,4 +1,4 @@
-﻿using ApplicationBlog.Helper;
+﻿using Application.Helper;
 using LocalDataBase.Model;
 using LocalDataBase.Repository;
 using System.Collections.ObjectModel;
@@ -6,7 +6,7 @@ using System.Text.Json;
 using ViewModel.ViewModels;
 using static Common.Enumerators;
 
-namespace ApplicationBlog.AppService
+namespace Application.AppService
 {
     /// <summary>
     /// Classe de Serviços de Postagens

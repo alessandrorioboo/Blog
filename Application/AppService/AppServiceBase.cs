@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace ApplicationBlog.AppService
+namespace Application.AppService
 {
     /// <summary>
     /// Classe Base de Serviços

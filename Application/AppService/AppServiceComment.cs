@@ -1,9 +1,9 @@
-﻿using ApplicationBlog.Helper;
+﻿using Application.Helper;
 using LocalDataBase.Model;
 using LocalDataBase.Repository;
 using System.Text.Json;
 
-namespace ApplicationBlog.AppService
+namespace Application.AppService
 {
     /// <summary>
     /// Classe de Serviços de Comentários

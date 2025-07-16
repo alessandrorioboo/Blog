@@ -5,7 +5,7 @@ VisualStudioVersion = 17.14.36301.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog", "Blog\Blog.csproj", "{5FC2F3BE-3D77-49F9-B26C-5D8E8AE81ACB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationBlog", "Application\ApplicationBlog.csproj", "{551DD6B4-FCA1-445C-8B74-ED18A17F9DCA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{551DD6B4-FCA1-445C-8B74-ED18A17F9DCA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalDataBase", "LocalDataBase\LocalDataBase.csproj", "{3B35A278-9C4C-4EB5-BB74-AE322A5577DA}"
 EndProject
