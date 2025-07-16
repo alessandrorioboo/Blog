@@ -7,6 +7,6 @@ namespace LocalDataBase.Repository
     /// </summary>
     public interface IPostRepository : IBaseRepository<Post>
     {
-        
+        Task AddOrUpdateAllAlternativo(List<Post> listPost);
     }
 }

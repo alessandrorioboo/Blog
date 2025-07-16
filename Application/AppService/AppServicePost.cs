@@ -19,7 +19,7 @@ namespace Application.AppService
         private IAppServiceDataInformation _appServiceDataInformation;
         
         //TODO: Por questões de testes foram criados 2 modos de persistência de dados para consumo offline. Base Cheia/Base Reduzida. Base reduzida está instável, verificar!
-        private bool _modoBaseCheia = true;
+        private bool _modoBaseCheia = false;
 
         public AppServicePost(IPostRepository postRepository, IAppServiceComment appServiceComment, IAppServiceUser appServiceUser, IAppServiceDataInformation appServiceDataInformation)
         {
@@ -155,7 +155,7 @@ namespace Application.AppService
 
         private async Task SaveLocalDataReduzida(List<Post> posts)
         {
-            await _postRepository.AddOrUpdateAll(posts);
+            await _postRepository.AddOrUpdateAllAlternativo(posts);
 
             DataInformation dataInformation = new DataInformation { LastUpdate = DateTime.Now };
             await _appServiceDataInformation.AddOrUpdate(dataInformation);

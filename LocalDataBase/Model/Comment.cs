@@ -9,9 +9,7 @@ namespace LocalDataBase.Model
     {
         [Required]
         public int PostId { get; set; }       
-        
-        //public Post? Post { get; set; }
-        
+               
         [MaxLength(100)]
         public string? Name { get; set; }
 

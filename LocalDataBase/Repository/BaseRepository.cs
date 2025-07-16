@@ -70,7 +70,6 @@ namespace LocalDataBase.Repository
             }
         }
 
-
         public virtual async Task<List<T>> GetAll()
         {
             using (var context = new BlogContext())
