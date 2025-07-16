@@ -28,7 +28,7 @@ namespace Blog
         {
             if (((PagePostViewModel)this.BindingContext).Status == eStatus.Processando)
             {                
-                //TODO: Fake para remover os dados ao mudar do modo base cheia / base reduzida
+                //TODO: Fake para remover os dados locais ao iniciar
                 await _appServicePost.RemoveAllData();
                 await ObterDados(itemsByPage, 1);
                 this.BindingContext = _pagePostViewModel;

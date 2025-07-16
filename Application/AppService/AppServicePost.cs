@@ -18,7 +18,7 @@ namespace ApplicationBlog.AppService
         private IAppServiceUser _appServiceUser;
         private IAppServiceDataInformation _appServiceDataInformation;
         
-        //TODO: Por questões de testes foram criados 2 modos de persistência de dados para consumo offline. Base Cheia/Base Reduzida.
+        //TODO: Por questões de testes foram criados 2 modos de persistência de dados para consumo offline. Base Cheia/Base Reduzida. Base reduzida está instável, verificar!
         private bool _modoBaseCheia = true;
 
         public AppServicePost(IPostRepository postRepository, IAppServiceComment appServiceComment, IAppServiceUser appServiceUser, IAppServiceDataInformation appServiceDataInformation)
