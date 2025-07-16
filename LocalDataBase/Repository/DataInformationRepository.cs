@@ -1,4 +1,5 @@
-﻿using LocalDataBase.Model;
+﻿using LocalDataBase.Context;
+using LocalDataBase.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace LocalDataBase.Repository
@@ -10,9 +11,11 @@ namespace LocalDataBase.Repository
     {
         public virtual async Task<DataInformation> GetFirst()
         {
-            var dataInformation = await context.DataInformation.FirstAsync();
-            return dataInformation ?? new DataInformation { Id = 1, LastUpdate = DateTime.MinValue };
+            using (var context = new BlogContext())
+            {
+                var dataInformation = await context.DataInformation.FirstAsync();
+                return dataInformation ?? new DataInformation { Id = 1, LastUpdate = DateTime.MinValue };
+            }
         }
-
     }
 }

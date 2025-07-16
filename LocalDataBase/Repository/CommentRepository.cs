@@ -1,4 +1,5 @@
-﻿using LocalDataBase.Model;
+﻿using LocalDataBase.Context;
+using LocalDataBase.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace LocalDataBase.Repository
@@ -10,7 +11,10 @@ namespace LocalDataBase.Repository
     {
         public async Task<List<Comment>> GetCommentsInPostIdList(List<int> postIds)
         {
-            return await context.Comments.Where(p => postIds.Contains(p.PostId)).ToListAsync();
+            using (var context = new BlogContext())
+            {
+                return await context.Comments.Where(p => postIds.Contains(p.PostId)).ToListAsync();
+            }
         }
 
     }

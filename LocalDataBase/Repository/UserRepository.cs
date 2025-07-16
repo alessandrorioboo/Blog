@@ -1,4 +1,5 @@
-﻿using LocalDataBase.Model;
+﻿using LocalDataBase.Context;
+using LocalDataBase.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace LocalDataBase.Repository
@@ -10,7 +11,10 @@ namespace LocalDataBase.Repository
     {
         public async Task<List<User>> GetUserInUserIdList(List<int> userIds)
         {
-            return await context.Users.Where(p => userIds.Contains(p.Id)).ToListAsync();
+            using (var context = new BlogContext())
+            {
+                return await context.Users.Where(p => userIds.Contains(p.Id)).ToListAsync();
+            }
         }
     }
 }
