@@ -11,5 +11,6 @@ namespace ApplicationBlog.AppService
         Task<List<Post>> GetAllPostsPaged(int items, int page);
         Task<PagePostViewModel> GetPostsAsync(int items, int page, bool online);
         Task<PagePostViewModel> GetPostsAsyncViewModel(int items, int page, bool online);
+        Task RemoveAllData();
     }
 }

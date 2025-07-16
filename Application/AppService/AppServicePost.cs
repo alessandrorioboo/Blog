@@ -17,6 +17,9 @@ namespace ApplicationBlog.AppService
         private IAppServiceComment _appServiceComment;
         private IAppServiceUser _appServiceUser;
         private IAppServiceDataInformation _appServiceDataInformation;
+        
+        //TODO: Por questões de testes foram criados 2 modos de persistência de dados para consumo offline. Base Cheia/Base Reduzida.
+        private bool _modoBaseCheia = true;
 
         public AppServicePost(IPostRepository postRepository, IAppServiceComment appServiceComment, IAppServiceUser appServiceUser, IAppServiceDataInformation appServiceDataInformation)
         {
@@ -77,7 +80,10 @@ namespace ApplicationBlog.AppService
                     posts = await GetAllPosts();
                     pagePostViewModel.Total = posts.Count;
                     pagePostViewModel.LastUpdate = DateTime.Now;
-                    //posts = posts.OrderByDescending(p => p.Id).Skip((page - 1) * items).Take(items).ToList();
+                    if (!_modoBaseCheia)
+                    {
+                        posts = posts.OrderByDescending(p => p.Id).Skip((page - 1) * items).Take(items).ToList();
+                    }
                 }
                 else
                 {
@@ -99,7 +105,7 @@ namespace ApplicationBlog.AppService
                     var users = await usersTask;
                     var comments = await commentsTask;
 
-                    // Fake para testar Postagens sem Comentários
+                    //TODO: Fake para testar postagens sem comentários
                     comments = comments.Where(p => p.PostId != 100).ToList();
 
                     posts = (from post in posts
@@ -109,9 +115,15 @@ namespace ApplicationBlog.AppService
 
                     var postsCopy = posts;
 
-                    Task.Run(() => SaveLocalData(postsCopy));
-
-                    posts = posts.OrderByDescending(p => p.Id).Skip((page - 1) * items).Take(items).ToList();
+                    if (_modoBaseCheia)
+                    {
+                        Task.Run(() => SaveLocalDataBaseCheia(postsCopy));
+                        posts = posts.OrderByDescending(p => p.Id).Skip((page - 1) * items).Take(items).ToList();
+                    }
+                    else
+                    {
+                        Task.Run(() => SaveLocalDataReduzida(postsCopy));
+                    }
                 }
 
                 MapperHelper<List<Post>, ObservableCollection<PostViewModel>> mapperHelper = new MapperHelper<List<Post>, ObservableCollection<PostViewModel>>();
@@ -131,12 +143,9 @@ namespace ApplicationBlog.AppService
             return pagePostViewModel;
         }
 
-        private async Task SaveLocalData(List<Post> posts)
+        private async Task SaveLocalDataBaseCheia(List<Post> posts)
         {
-
-            await _postRepository.RemoveAll();
-            await _appServiceComment.RemoveAll();
-            await _appServiceUser.RemoveAll();
+            await RemoveAllData();
 
             await _postRepository.AddAll(posts);
 
@@ -144,12 +153,19 @@ namespace ApplicationBlog.AppService
             await _appServiceDataInformation.AddOrUpdate(dataInformation);
         }
 
-        private async Task SaveLocalDataOld(List<Post> posts)
+        private async Task SaveLocalDataReduzida(List<Post> posts)
         {
             await _postRepository.AddOrUpdateAll(posts);
 
             DataInformation dataInformation = new DataInformation { LastUpdate = DateTime.Now };
             await _appServiceDataInformation.AddOrUpdate(dataInformation);
+        }
+
+        public async Task RemoveAllData()
+        {
+            await _postRepository.RemoveAll();
+            await _appServiceComment.RemoveAll();
+            await _appServiceUser.RemoveAll();
         }
 
         private async Task<List<Post>> GetAllPosts()
